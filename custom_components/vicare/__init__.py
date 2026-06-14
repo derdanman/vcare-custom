@@ -201,7 +201,7 @@ def _remove_token_file(token_path: str) -> None:
 
 def _setup_vicare_api(
     auth: ConfigEntryAuth,
-    cache_duration: int = DEFAULT_CACHE_DURATION,
+    cache_duration: int,
 ) -> ViCareData:
     """Set up PyVicare API."""
     client = PyViCare()
@@ -212,7 +212,7 @@ def _setup_vicare_api(
 
     # increase cache duration to fit rate limit to number of devices
     if (number_of_devices := len(device_config_list)) > 1:
-        cache_duration = DEFAULT_CACHE_DURATION * number_of_devices
+        cache_duration = cache_duration * number_of_devices
         _LOGGER.debug(
             "Found %s devices, adjusting cache duration to %s",
             number_of_devices,
