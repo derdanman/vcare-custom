@@ -31,15 +31,15 @@
   "options": {
     "step": {
       "init": {
-        "title": "ViCare polling interval",
-        "description": "Set how often the Viessmann API is queried. At the current setting, this results in **{calls_per_day} API calls per day** (Viessmann limit: {daily_limit}/day).",
+        "title": "API polling interval",
+        "description": "Defines how often Home Assistant queries the Viessmann ViCare API (in seconds).\n\n**Current setting:** {calls_per_day} API calls per day\n**Viessmann limit:** {daily_limit} calls per day\n\n**Guidance:**\n- Minimum: {min_interval} seconds (1 min) → 1,440 calls/day — at the daily limit\n- Default: {default_interval} seconds (5 min) → 288 calls/day — recommended\n- With multiple devices the effective call count multiplies accordingly\n\nExceeding the daily limit causes Viessmann to block API access temporarily.",
         "data": {
-          "scan_interval": "Polling interval (minutes)"
+          "scan_interval": "Polling interval (seconds)"
         }
       }
     },
     "error": {
-      "too_frequent": "The interval is too short. It would exceed Viessmann's daily API call limit of {daily_limit}. Set at least 2 minutes."
+      "too_frequent": "The interval is too short and would exceed Viessmann's daily API limit of {daily_limit} calls. Please set at least 60 seconds."
     }
   },
   "entity": {

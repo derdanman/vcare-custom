@@ -162,8 +162,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ViCareConfigEntry) -> bo
 
     auth = ConfigEntryAuth(hass, oauth_session)
 
-    scan_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
-    cache_duration = scan_interval * 60
+    cache_duration = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
 
     try:
         entry.runtime_data = await hass.async_add_executor_job(

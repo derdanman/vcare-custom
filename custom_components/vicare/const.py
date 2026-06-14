@@ -34,7 +34,7 @@ CONF_CIRCUIT = "circuit"
 DEFAULT_CACHE_DURATION = 60
 
 CONF_SCAN_INTERVAL = "scan_interval"
-DEFAULT_SCAN_INTERVAL = 1  # minutes
+DEFAULT_SCAN_INTERVAL = 300  # seconds (5 minutes = 288 calls/day)
 VIESSMANN_DAILY_CALL_LIMIT = 1450
 
 VICARE_BAR = "bar"

@@ -109,7 +109,7 @@ class ViCareOptionsFlowHandler(OptionsFlow):
 
         if user_input is not None:
             scan_interval = user_input[CONF_SCAN_INTERVAL]
-            calls_per_day = int(24 * 60 / scan_interval)
+            calls_per_day = int(24 * 3600 / scan_interval)
             if calls_per_day > VIESSMANN_DAILY_CALL_LIMIT:
                 errors[CONF_SCAN_INTERVAL] = "too_frequent"
             else:
@@ -118,7 +118,7 @@ class ViCareOptionsFlowHandler(OptionsFlow):
         current_interval = self.config_entry.options.get(
             CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
         )
-        calls_per_day = int(24 * 60 / current_interval)
+        calls_per_day = int(24 * 3600 / current_interval)
 
         return self.async_show_form(
             step_id="init",
@@ -126,12 +126,14 @@ class ViCareOptionsFlowHandler(OptionsFlow):
                 {
                     vol.Required(
                         CONF_SCAN_INTERVAL, default=current_interval
-                    ): vol.All(int, vol.Range(min=1, max=1440)),
+                    ): vol.All(int, vol.Range(min=60, max=86400)),
                 }
             ),
             description_placeholders={
                 "calls_per_day": str(calls_per_day),
                 "daily_limit": str(VIESSMANN_DAILY_CALL_LIMIT),
+                "min_interval": "60",
+                "default_interval": "300",
             },
             errors=errors,
         )
