@@ -1,5 +1,6 @@
 {
   "domain": "vicare",
+  "version": "1.0.0",
   "name": "Viessmann ViCare",
   "codeowners": ["@CFenner", "@lackas"],
   "config_flow": true,
