@@ -1,6 +1,5 @@
 {
   "name": "Viessmann ViCare",
   "content_in_root": false,
-  "homeassistant": "2025.1.0",
-  "filename": "vicare"
+  "homeassistant": "2024.1.0"
 }
