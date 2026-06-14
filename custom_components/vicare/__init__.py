@@ -209,19 +209,6 @@ def _setup_vicare_api(
 
     device_config_list = get_supported_devices(client.devices)
 
-    # increase cache duration to fit rate limit to number of devices
-    if (number_of_devices := len(device_config_list)) > 1:
-        cache_duration = cache_duration * number_of_devices
-        _LOGGER.debug(
-            "Found %s devices, adjusting cache duration to %s",
-            number_of_devices,
-            cache_duration,
-        )
-        client = PyViCare()
-        client.setCacheDuration(cache_duration)
-        client.initWithExternalOAuth(auth)
-        device_config_list = get_supported_devices(client.devices)
-
     for device in device_config_list:
         _LOGGER.debug(
             "Found device: %s (online: %s)",
