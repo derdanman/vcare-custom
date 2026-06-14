@@ -28,6 +28,20 @@
       }
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "title": "ViCare polling interval",
+        "description": "Set how often the Viessmann API is queried. At the current setting, this results in **{calls_per_day} API calls per day** (Viessmann limit: {daily_limit}/day).",
+        "data": {
+          "scan_interval": "Polling interval (minutes)"
+        }
+      }
+    },
+    "error": {
+      "too_frequent": "The interval is too short. It would exceed Viessmann's daily API call limit of {daily_limit}. Set at least 2 minutes."
+    }
+  },
   "entity": {
     "binary_sensor": {
       "burner": {

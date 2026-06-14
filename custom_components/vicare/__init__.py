@@ -38,7 +38,8 @@ from homeassistant.helpers.storage import STORAGE_DIR
 
 from .api import ConfigEntryAuth
 from .const import (
-    DEFAULT_CACHE_DURATION,
+    CONF_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     PLATFORMS,
     UNSUPPORTED_DEVICES,
@@ -161,8 +162,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ViCareConfigEntry) -> bo
 
     auth = ConfigEntryAuth(hass, oauth_session)
 
+    scan_interval = entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
+    cache_duration = scan_interval * 60
+
     try:
-        entry.runtime_data = await hass.async_add_executor_job(_setup_vicare_api, auth)
+        entry.runtime_data = await hass.async_add_executor_job(
+            _setup_vicare_api, auth, cache_duration
+        )
     except (
         PyViCareInvalidConfigurationError,
         PyViCareInvalidCredentialsError,
@@ -175,7 +181,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ViCareConfigEntry) -> bo
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
+    entry.async_on_unload(entry.add_update_listener(_async_update_listener))
+
     return True
+
+
+async def _async_update_listener(
+    hass: HomeAssistant, entry: ViCareConfigEntry
+) -> None:
+    """Reload entry when options change."""
+    await hass.config_entries.async_reload(entry.entry_id)
 
 
 def _remove_token_file(token_path: str) -> None:
